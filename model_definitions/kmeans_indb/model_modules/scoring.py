@@ -6,8 +6,6 @@ from aoa import (
     aoa_create_context,
     ModelContext
 )
-import pandas as pd
-
 
 def score(context: ModelContext, **kwargs):
     """
