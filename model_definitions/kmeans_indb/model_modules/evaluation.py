@@ -1,6 +1,7 @@
 
 import matplotlib.pyplot as plt
-    
+import teradataml as tdml
+from teradataml import *   
 
 
 def evaluate(context: ModelContext, **kwargs):
