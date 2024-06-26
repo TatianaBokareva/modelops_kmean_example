@@ -23,7 +23,7 @@ def train(context: ModelContext, **kwargs):
     - context (ModelContext): Contextual information and metadata about the model and training environment.
     
     Keyword Arguments:
-    - Various hyperparameters and configurations can be passed used directly from the context.
+    - Various hyperparameters and configurations can be passed and used directly from the context.
     
     Returns:
     - None
@@ -69,6 +69,7 @@ def train(context: ModelContext, **kwargs):
     print("Printing centorids")
     
     df_model = KMeans_out.result.to_pandas()
+    
     x = list(df_model[df_model['sepal_length'].notnull()]["sepal_length"])
     y = list(df_model[df_model['petal_length'].notnull()]["petal_length"])
     z = list(df_model[df_model['sepal_width'].notnull()]["sepal_width"])
@@ -79,11 +80,14 @@ def train(context: ModelContext, **kwargs):
     ax.set_xlabel('TotalQuantity')
     ax.set_ylabel('TotalPrice')
     ax.set_zlabel(r'TotalItems')
+    # Now set ax as current axes
+    plt.sca(ax)
     plt.title('Centroids')
+
+    
     fig = plt.gcf()
     fig.savefig("centroids.png", dpi=500)
-    plt.clf()
-    
+
     # Save the trained model object to SQL: The table is called model_long_id_of the model
     KMeans_out.result.to_sql(f"model_{context.model_version}", if_exists="replace")
     
