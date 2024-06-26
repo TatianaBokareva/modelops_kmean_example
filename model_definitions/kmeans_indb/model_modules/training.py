@@ -83,7 +83,7 @@ def train(context: ModelContext, **kwargs):
     ax.set_zlabel(r'TotalItems')
     plt.title('Centroids')
 
-    fig.clf().savefig(img_filename, dpi=500)
+    fig.clf().savefig("centroids.png", dpi=500)
     
     # Save the trained model object to SQL: The table is called model_long_id_of the model
     KMeans_out.result.to_sql(f"model_{context.model_version}", if_exists="replace")
