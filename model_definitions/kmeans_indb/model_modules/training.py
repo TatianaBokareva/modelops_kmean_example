@@ -37,6 +37,7 @@ def train(context: ModelContext, **kwargs):
     feature_names = context.dataset_info.feature_names
     target_name = context.dataset_info.target_names
     entity_key = context.dataset_info.entity_key
+    category_features = []
     
     if type(target_name) == list:
         target_name = target_name[0]
@@ -84,7 +85,7 @@ def train(context: ModelContext, **kwargs):
 
     fig.clf().savefig(img_filename, dpi=500)
     
-    # Save the trained model object to SQL
+    # Save the trained model object to SQL: The table is called model_long_id_of the model
     KMeans_out.result.to_sql(f"model_{context.model_version}", if_exists="replace")
     
     print("Saved trained model", f"model_{context.model_version}")
