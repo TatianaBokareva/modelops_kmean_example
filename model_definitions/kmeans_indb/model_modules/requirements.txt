@@ -3,3 +3,4 @@ teradataml==17.20.0.7
 matplotlib==3.5.2
 seaborn==0.13.0
 teradatamodelops==7.1.0
+numpy==1.26.4
