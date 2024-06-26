@@ -29,6 +29,7 @@ def score(context: ModelContext, **kwargs):
     Kmean_out = DataFrame(in_schema("demo_user","k_means_model"))
     
     tdf = DataFrame.from_query(context.dataset_info.sql)
+    print("context.dataset_info.sql")
 
     KMeansPredict_out = KMeansPredict(object=KMeans_out.result,
                                       data=tdf)
