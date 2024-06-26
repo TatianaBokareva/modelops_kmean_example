@@ -1,7 +1,5 @@
 import pandas as pd
-
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 import aoa
 from aoa import (
@@ -12,7 +10,6 @@ from aoa import (
 
 import teradataml as tdml
 from teradataml import *
-
 
 # Configure Teradata Vantage analytics functions to a specific installation location
 configure.val_install_location = 'val'
@@ -46,7 +43,7 @@ def train(context: ModelContext, **kwargs):
         entity_key = entity_key[0]
 
     # Load the training dataset from Teradata as a DataFrame
-    print("ontext.dataset_info.sql")
+    print(context.dataset_info.sql)
     
     train_df = DataFrame.from_query(context.dataset_info.sql)
     print('Feature names:', feature_names)
