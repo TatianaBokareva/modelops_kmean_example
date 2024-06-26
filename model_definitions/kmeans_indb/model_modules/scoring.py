@@ -34,3 +34,4 @@ def score(context: ModelContext, **kwargs):
     
     print("Saved predictions in Teradata")
     copy_to_sql(df = KMeansPredict_out.result, table_name = 'kmean_score', if_exists='replace')
+    print("All done")
