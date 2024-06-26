@@ -13,8 +13,6 @@ from aoa import (
 import teradataml as tdml
 from teradataml import *
 
-import getpass
-
 
 # Configure Teradata Vantage analytics functions to a specific installation location
 configure.val_install_location = 'val'
@@ -47,6 +45,8 @@ def train(context: ModelContext, **kwargs):
         entity_key = entity_key[0]
 
     # Load the training dataset from Teradata as a DataFrame
+    print("ontext.dataset_info.sql")
+    
     train_df = DataFrame.from_query(context.dataset_info.sql)
     print('Feature names:', feature_names)
     print(train_df.head())
@@ -82,10 +82,11 @@ def train(context: ModelContext, **kwargs):
     ax.set_zlabel(r'TotalItems')
     plt.title('Centroids')
 
-    fig.clf()savefig(img_filename, dpi=500)
+    fig.clf().savefig(img_filename, dpi=500)
     
     # Save the trained model object to SQL
     KMeans_out.result.to_sql(f"model_{context.model_version}", if_exists="replace")
+    
     print("Saved trained model", f"model_{context.model_version}")
     
     copy_to_sql(df = KMeans_out.result, table_name = 'k_means_model', if_exists='replace')
