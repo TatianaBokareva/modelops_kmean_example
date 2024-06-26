@@ -68,6 +68,7 @@ def train(context: ModelContext, **kwargs):
                           ,data=train_df
                          ,num_clusters = 3)
     
+    ## fix this code. It does not safe image
     print("Printing centorids")
     
     df_model = KMeans_out.result.to_pandas()
