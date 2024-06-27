@@ -7,7 +7,7 @@ from aoa import (
     aoa_create_context,
     ModelContext
 )
-
+https://github.com/TatianaBokareva/modelops_kmean_example/blob/main/model_definitions/kmeans_indb/model_modules/evaluation.py
 def evaluate(context: ModelContext, **kwargs):
     #load the model
     KMeans_out = DataFrame(in_schema("demo_user","k_means_model"))
@@ -23,7 +23,7 @@ def evaluate(context: ModelContext, **kwargs):
 
     df_kmeans_scored = obj.result.to_pandas()
     print(df_kmeans_scored.head())
-    print("genrating picture")
+    print("generating picture")
     x = list(df_kmeans_scored[df_kmeans_scored['sepal_length'].notnull()]["sepal_length"])
     y = list(df_kmeans_scored[df_kmeans_scored['petal_length'].notnull()]["petal_length"])
     z = list(df_kmeans_scored[df_kmeans_scored['sepal_width'].notnull()]["sepal_width"])
@@ -35,7 +35,7 @@ def evaluate(context: ModelContext, **kwargs):
     ax.set_ylabel('petal_length')
     ax.set_zlabel('sepal_width')
     plt.title('Scored')
-
+    ## ADD CODE TO SAFE PLOT
 
 
     ## Create classification matrix
