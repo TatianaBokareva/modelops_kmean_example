@@ -9,4 +9,56 @@ from aoa import (
 )
 
 def evaluate(context: ModelContext, **kwargs):
-  print("All done as there is not need to exaluate kmean")
+    #load the model
+    KMeans_out = DataFrame(f"model_{context.model_version}")
+    
+    # Load the test data set
+    test_df = DataFrame.from_query(context.dataset_info.sql)
+    tdf = DataFrame(in_schem("demo_user","iris"))
+    
+    KMeansPredict_out = KMeansPredict(object=KMeans_out.result,
+                                      data=test_df)
+
+    tdf1 = tdf.join(other = KMeansPredict_out.result, on = ["id=id"], how = "inner", lprefix = "t1")
+    
+    #Exclude unwanted colums
+    obj = Antiselect(data=tdf1,exclude=['t1_id'])
+
+    df_kmeans_scored = obj.result.to_pandas()
+    print(df_kmeans_scored.head())
+    print("genrating picture")
+    x = list(df_kmeans_scored[df_kmeans_scored['sepal_length'].notnull()]["sepal_length"])
+    y = list(df_kmeans_scored[df_kmeans_scored['petal_length'].notnull()]["petal_length"])
+    z = list(df_kmeans_scored[df_kmeans_scored['sepal_width'].notnull()]["sepal_width"])
+    col = list(df_kmeans_scored[df_kmeans_scored['td_clusterid_kmeans'].notnull()]["td_clusterid_kmeans"])
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    ax.scatter(x, y, z, c=col)
+    ax.set_xlabel('sepal_length')
+    ax.set_ylabel('petal_length')
+    ax.set_zlabel('sepal_width')
+    plt.title('Scored')
+
+
+
+    ## Create classification matrix
+    print("Creating misscalssification marix")
+    df_cnt = df_kmeans_scored.groupby(['species','td_clusterid_kmeans']).size()
+    df_c = df_cnt.to_frame().reset_index()
+    df_c = df_c.drop(columns=[0])
+    #Combine the keys and species into one column
+    df_c["keys"] = df_c.apply(lambda x: '_'.join(x[["species","td_clusterid_kmeans"]].astype(str).values), axis=1)
+    print(df_c)
+
+    # Create dictionary 
+    evaluation = {}
+
+    def add_values(row):
+        evaluation[row['keys']] = row['cnt']  
+    # Apply the user-defined function to every row
+    df_c.apply(add_values, axis=1)
+ 
+    with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
+        json.dump(evaluation, f)
+    
+    print("All done")
