@@ -10,14 +10,15 @@ from aoa import (
 
 def evaluate(context: ModelContext, **kwargs):
     #load the model
-    KMeans_out = DataFrame(in_schema("demo_user","k_means_model"))
+    #KMeans_out = DataFrame(in_schema("demo_user","k_means_model"))
     
     print(f"Loading model from table model_{context.model_version}")
-    model = DataFrame(f"model_{context.model_version}")
+    KMeans_out = DataFrame(f"model_{context.model_version}")
     print(context.dataset_info.sql)
     
     # Load the test data set
-    tdf = DataFrame(in_schema("demo_user","iris")) 
+    tdf = DataFrame.from_query(context.dataset_info.sql)
+    #tdf = DataFrame(in_schema("demo_user","iris")) 
     KMeansPredict_out = KMeansPredict(object=KMeans_out,data=tdf)
 
     tdf1 = tdf.join(other = KMeansPredict_out.result, on = ["id=id"], how = "inner", lprefix = "t1")
