@@ -9,6 +9,7 @@ from aoa import (
 )
 
 def evaluate(context: ModelContext, **kwargs):
+    aoa_create_context()
     #load the model
     #KMeans_out = DataFrame(in_schema("demo_user","k_means_model"))
     
