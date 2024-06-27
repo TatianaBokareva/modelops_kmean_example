@@ -51,7 +51,7 @@ def evaluate(context: ModelContext, **kwargs):
     df_c = df_c.drop(columns=[0])
     #Combine the keys and species into one column
     df_c["keys"] = df_c.apply(lambda x: '_'.join(x[["species","td_clusterid_kmeans"]].astype(str).values), axis=1)
-    print(df_c)
+    print(df_c.head())
 
     # Create dictionary 
     evaluation = {}
