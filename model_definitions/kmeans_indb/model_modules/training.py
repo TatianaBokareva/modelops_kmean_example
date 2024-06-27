@@ -83,9 +83,8 @@ def train(context: ModelContext, **kwargs):
     # Now set ax as current axes
     plt.sca(ax)
     plt.title('Centroids')
-
-    
     fig = plt.gcf()
+    plt.show()
     fig.savefig("centroids.png", dpi=500)
 
     # Save the trained model object to SQL: The table is called model_long_id_of the model
@@ -93,5 +92,5 @@ def train(context: ModelContext, **kwargs):
     
     print("Saved trained model", f"model_{context.model_version}")
     
-    copy_to_sql(df = KMeans_out.result, table_name = 'k_means_model', if_exists='replace')
+    #copy_to_sql(df = KMeans_out.result, table_name = 'k_means_model', if_exists='replace')
     print("All done!")
