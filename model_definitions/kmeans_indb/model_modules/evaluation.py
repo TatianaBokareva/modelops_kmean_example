@@ -7,10 +7,14 @@ from aoa import (
     aoa_create_context,
     ModelContext
 )
-https://github.com/TatianaBokareva/modelops_kmean_example/blob/main/model_definitions/kmeans_indb/model_modules/evaluation.py
+
 def evaluate(context: ModelContext, **kwargs):
     #load the model
     KMeans_out = DataFrame(in_schema("demo_user","k_means_model"))
+    
+    print(f"Loading model from table model_{context.model_version}")
+    model = DataFrame(f"model_{context.model_version}")
+    print(context.dataset_info.sql)
     
     # Load the test data set
     tdf = DataFrame(in_schema("demo_user","iris")) 
