@@ -33,7 +33,7 @@ def score(context: ModelContext, **kwargs):
     KMeansPredict_out = KMeansPredict(object=Kmean_out,data=tdf).result
     print(KMeansPredict_out)
     copy_to_sql(df = KMeansPredict_out, table_name = "kmeans_tmp", primary_index="id", if_exists="replace")
-    Km = DataFrame("kmeans_tmp").to_pandas()
+    Km = DataFrame(in_schema(context.dataset_info.predictions_database,"kmeans_tmp")).to_pandas()
     print(Km)
     # Convert predictions to pandas DataFrame, adjust the column name to target_name, and ensure the type is integer
     # Retrieve target, and entity key names from the model context
