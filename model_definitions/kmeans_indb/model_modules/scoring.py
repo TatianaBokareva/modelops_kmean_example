@@ -37,34 +37,26 @@ def score(context: ModelContext, **kwargs):
   
     print("Scoring")
     KMeansPredict_out = KMeansPredict(object=Kmean_out,data=tdf).result
+    print("Output of scoring")
     print(KMeansPredict_out)
-    copy_to_sql(df = KMeansPredict_out, table_name = "kmeans_tmp", primary_index="id", if_exists="replace")
-    Km = DataFrame(in_schema(context.dataset_info.predictions_database,"kmeans_tmp")).to_pandas()
-    print(Km)
-    # Convert predictions to pandas DataFrame, adjust the column name to target_name, and ensure the type is integer
-    # Retrieve target, and entity key names from the model context
-    target_name = context.dataset_info.target_names
-    entity_key = context.dataset_info.entity_key
-    predictions_pdf = Km.rename(columns={"td_clusterid_kmeans": target_name}).astype({target_name: int})
+    
+    # Retrieve target, and entity key names from the model context. Note: order columns to match the expected schema in the database
+    KMeansPredict_out.assign(drop_columns=True
+                            ,job_id = context.job_id  # Add job_id to track the execution
+                             ,entity_key = context.dataset_info.entity_key # Set entity key from the features_pdf
+                             ,context.dataset_info.target_names = KMeansPredict_out.td_clusterid_kmeans # rename td_clusterid_kmeans to target_names
+                            ,json_report= ""  # Add an empty json_report column for compatibility with the expected table schema
+                            )    
 
     print("Finished Scoring")
-    # Prepare the predictions DataFrame for database insertion
-    predictions_pdf["job_id"] = context.job_id  # Add job_id to track the execution
-    predictions_pdf[entity_key] = entity_key  # Set entity key from the features_pdf
-    predictions_pdf["json_report"] = ""  # Add an empty json_report column for compatibility with the expected table schema
-
-    # Reorder columns to match the expected schema in the database
-    predictions_pdf = predictions_pdf[["job_id", entity_key, target_name, "json_report"]]
 
     # Append the results to the specified prediction table in Teradata
+    print("Saved predictions in Teradata")
     copy_to_sql(
-        df=predictions_pdf,
+        df=KMeansPredict_out,
         schema_name=context.dataset_info.predictions_database,
         table_name=context.dataset_info.predictions_table,
         index=False,
          if_exists="append"
     )
-
-    print("Saved predictions in Teradata")
-    # copy_to_sql(df = KMeansPredict_out.result, table_name = 'kmean_score', if_exists='replace')
     print("All done")
