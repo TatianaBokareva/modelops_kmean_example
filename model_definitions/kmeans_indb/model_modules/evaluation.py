@@ -71,8 +71,8 @@ def evaluate(context: ModelContext, **kwargs):
     ## ADD CODE TO SAFE PLOT
     print("printing barcplots for seaborn")
     fig = sns.barplot(x=df_c.td_clusterid_kmeans, y=df_c.cnt, hue = df_c.species)
-    fig.savefig(f"{context.artifact_output_path}/barplots.png", dpi=500)
-    
+    #fig.savefig(f"{context.artifact_output_path}/barplots.png", dpi=500)
+    fig.figure.savefig(f"{context.artifact_output_path}/barplots.png")
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
     
