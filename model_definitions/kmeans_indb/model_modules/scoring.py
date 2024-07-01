@@ -33,13 +33,15 @@ def score(context: ModelContext, **kwargs):
     KMeansPredict_out = KMeansPredict(object=Kmean_out,data=tdf)
     print(KMeansPredict_out.result)
     # Convert predictions to pandas DataFrame, adjust the column name to target_name, and ensure the type is integer
+    # Retrieve target, and entity key names from the model context
+    target_name = context.dataset_info.target_names
+    entity_key = context.dataset_info.entity_key
     predictions_pdf = KMeansPredict_out.result.to_pandas(all_rows=True).rename(columns={"td_clusterid_kmeans": target_name}).astype({target_name: int})
 
     print("Finished Scoring")
-
     # Prepare the predictions DataFrame for database insertion
     predictions_pdf["job_id"] = context.job_id  # Add job_id to track the execution
-    predictions_pdf[entity_key] = predictions_pdf["id"]  # Set entity key from the features_pdf
+    predictions_pdf[entity_key] = entity_key  # Set entity key from the features_pdf
     predictions_pdf["json_report"] = ""  # Add an empty json_report column for compatibility with the expected table schema
 
     # Reorder columns to match the expected schema in the database
