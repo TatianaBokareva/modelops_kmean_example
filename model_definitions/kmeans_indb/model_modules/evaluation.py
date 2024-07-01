@@ -26,10 +26,8 @@ def evaluate(context: ModelContext, **kwargs):
     
     #Exclude unwanted colums
     obj = Antiselect(data=tdf1,exclude=['t1_id'])
-
     df_kmeans_scored = obj.result.to_pandas()
     
-    print(df_kmeans_scored.head())
     print("generating picture")
     x = list(df_kmeans_scored[df_kmeans_scored['sepal_length'].notnull()]["sepal_length"])
     y = list(df_kmeans_scored[df_kmeans_scored['petal_length'].notnull()]["petal_length"])
@@ -42,6 +40,10 @@ def evaluate(context: ModelContext, **kwargs):
     ax.set_ylabel('petal_length')
     ax.set_zlabel('sepal_width')
     plt.title('Scored')
+    # Save the plot to a file
+    plt.gcf().savefig(f"{context.artifact_output_path}/r"3_d_plot_points.png", dpi=500)
+    plt.clf()  # Clear the plot to free memory
+    
     ## ADD CODE TO SAFE PLOT
 
 
@@ -54,8 +56,6 @@ def evaluate(context: ModelContext, **kwargs):
 
     #Combine the keys and species into one column
     df_c["keys"] = df_c.apply(lambda x: '_'.join(x[["species","td_clusterid_kmeans"]].astype(str).values), axis=1)
-    print(df_c.head())
-
 
     # Create dictionary 
     evaluation = {}
@@ -65,7 +65,7 @@ def evaluate(context: ModelContext, **kwargs):
     
     # Apply the user-defined function to every row
     df_c.apply(add_values, axis=1)
-    
+    print(evaluation)
     
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
