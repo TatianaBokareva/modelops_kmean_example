@@ -38,9 +38,9 @@ def score(context: ModelContext, **kwargs):
     print("Finished Scoring")
 
     # Prepare the predictions DataFrame for database insertion
-     predictions_pdf["job_id"] = context.job_id  # Add job_id to track the execution
-     predictions_pdf[entity_key] = predictions_pdf["id"]  # Set entity key from the features_pdf
-     predictions_pdf["json_report"] = ""  # Add an empty json_report column for compatibility with the expected table schema
+    predictions_pdf["job_id"] = context.job_id  # Add job_id to track the execution
+    predictions_pdf[entity_key] = predictions_pdf["id"]  # Set entity key from the features_pdf
+    predictions_pdf["json_report"] = ""  # Add an empty json_report column for compatibility with the expected table schema
 
     # Reorder columns to match the expected schema in the database
     predictions_pdf = predictions_pdf[["job_id", entity_key, target_name, "json_report"]]
@@ -52,8 +52,8 @@ def score(context: ModelContext, **kwargs):
         table_name=context.dataset_info.predictions_table,
         index=False,
          if_exists="append"
-     )
+    )
 
     print("Saved predictions in Teradata")
-   # copy_to_sql(df = KMeansPredict_out.result, table_name = 'kmean_score', if_exists='replace')
+    # copy_to_sql(df = KMeansPredict_out.result, table_name = 'kmean_score', if_exists='replace')
     print("All done")
