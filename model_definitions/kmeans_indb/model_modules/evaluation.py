@@ -47,11 +47,6 @@ def evaluate(context: ModelContext, **kwargs):
     plt.gcf().savefig(f"{context.artifact_output_path}/3_d_plot_points.png", dpi=500)
     plt.clf()  # Clear the plot to free memory
     
-    ## ADD CODE TO SAFE PLOT
-    print("printing barcplots for seaborn")
-    fig = sns.barplot(x=df_c.td_clusterid_kmeans, y=df_c.cnt, hue = df_c.species)
-    fig.savefig(f"{context.artifact_output_path}/barplots.png", dpi=500)
-    
     ## Create classification matrix
     print("Creating misscalssification matrix")
     df_cnt = df_kmeans_scored.groupby(['species','td_clusterid_kmeans']).size()
@@ -71,6 +66,12 @@ def evaluate(context: ModelContext, **kwargs):
     # Apply the user-defined function to every row
     df_c.apply(add_values, axis=1)
     print(evaluation)
+
+    
+    ## ADD CODE TO SAFE PLOT
+    print("printing barcplots for seaborn")
+    fig = sns.barplot(x=df_c.td_clusterid_kmeans, y=df_c.cnt, hue = df_c.species)
+    fig.savefig(f"{context.artifact_output_path}/barplots.png", dpi=500)
     
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
