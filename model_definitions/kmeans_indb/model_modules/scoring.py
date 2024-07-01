@@ -44,7 +44,7 @@ def score(context: ModelContext, **kwargs):
     KMeansPredict_out.assign(drop_columns=True
                             ,job_id = context.job_id  # Add job_id to track the execution
                              ,entity_key = context.dataset_info.entity_key # Set entity key from the features_pdf
-                             ,context.dataset_info.target_names = KMeansPredict_out.td_clusterid_kmeans # rename td_clusterid_kmeans to target_names
+                            , target_name = KMeansPredict_out.td_clusterid_kmeans # rename td_clusterid_kmeans to target_names
                             ,json_report= ""  # Add an empty json_report column for compatibility with the expected table schema
                             )    
 
