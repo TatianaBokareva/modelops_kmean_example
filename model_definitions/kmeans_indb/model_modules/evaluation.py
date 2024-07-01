@@ -45,7 +45,7 @@ def evaluate(context: ModelContext, **kwargs):
 
 
     ## Create classification matrix
-    print("Creating misscalssification marix")
+    print("Creating misscalssification matrix")
     df_cnt = df_kmeans_scored.groupby(['species','td_clusterid_kmeans']).size()
     df_c = df_cnt.to_frame().reset_index()
     df_c = df_c.drop(columns=[0])
@@ -53,13 +53,16 @@ def evaluate(context: ModelContext, **kwargs):
     df_c["keys"] = df_c.apply(lambda x: '_'.join(x[["species","td_clusterid_kmeans"]].astype(str).values), axis=1)
     print(df_c.head())
 
+
     # Create dictionary 
     evaluation = {}
 
     def add_values(row):
-        evaluation[row['keys']] = row['cnt']  
+        evaluation[row['keys']] = row['cnt']
+    print
+    print(df_c['row'])
     # Apply the user-defined function to every row
-    df_c.apply(add_values, axis=1)
+    df_c.apply(add_values, axis=2)
  
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
