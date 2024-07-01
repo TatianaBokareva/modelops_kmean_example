@@ -61,6 +61,7 @@ def evaluate(context: ModelContext, **kwargs):
         evaluation[row["keys"]] = row["cnt"]
         
     print("Print the df_c before call")
+    list(df_c)
     print(df_c["cnt"])
     
     # Apply the user-defined function to every row
