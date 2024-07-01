@@ -83,9 +83,10 @@ def train(context: ModelContext, **kwargs):
     # Now set ax as current axes
     plt.sca(ax)
     plt.title('Centroids')
-    fig = plt.gcf()
-    plt.show()
-    fig.savefig("centroids.png", dpi=500)
+    plt.gcf().savefig(f"{context.artifact_output_path}/roc_curve.png", dpi=500)
+    plt.clf()
+
+  
 
     # Save the trained model object to SQL: The table is called model_long_id_of the model
     KMeans_out.result.to_sql(f"model_{context.model_version}", if_exists="replace")
