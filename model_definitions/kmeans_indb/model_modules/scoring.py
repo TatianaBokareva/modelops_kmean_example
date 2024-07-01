@@ -4,8 +4,7 @@ from teradataml import *
 from teradataml import (
     copy_to_sql,
     DataFrame,
-    KMeansPredict,
-    to_pandas
+    KMeansPredict
 )
 
 from aoa import (
