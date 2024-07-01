@@ -59,7 +59,8 @@ def evaluate(context: ModelContext, **kwargs):
 
     def add_values(row):
         evaluation[row['keys']] = row['cnt']
-    print
+        
+    print("Print the df_c before call)
     print(df_c["row"])
     # Apply the user-defined function to every row
     df_c.apply(add_values, axis=0)
