@@ -1,5 +1,7 @@
 
 import matplotlib.pyplot as plt
+import seaborn as sns
+
 import teradataml as tdml
 from teradataml import *   
 from aoa import (
@@ -46,8 +48,10 @@ def evaluate(context: ModelContext, **kwargs):
     plt.clf()  # Clear the plot to free memory
     
     ## ADD CODE TO SAFE PLOT
-
-
+    print("printing barcplots for seaborn")
+    fig = sns.barplot(x=df_c.td_clusterid_kmeans, y=df_c.cnt, hue = df_c.species)
+    fig.savefig(f"{context.artifact_output_path}/barplots.png", dpi=500)
+    
     ## Create classification matrix
     print("Creating misscalssification matrix")
     df_cnt = df_kmeans_scored.groupby(['species','td_clusterid_kmeans']).size()
