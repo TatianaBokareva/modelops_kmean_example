@@ -60,9 +60,9 @@ def evaluate(context: ModelContext, **kwargs):
     def add_values(row):
         evaluation[row['keys']] = row['cnt']
     print
-    print(df_c['row'])
+    print(df_c["row"])
     # Apply the user-defined function to every row
-    df_c.apply(add_values, axis=2)
+    df_c.apply(add_values, axis=0)
  
     with open(f"{context.artifact_output_path}/metrics.json", "w+") as f:
         json.dump(evaluation, f)
