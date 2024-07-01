@@ -1,4 +1,4 @@
-import pandas as pd
+oidsimport pandas as pd
 import matplotlib.pyplot as plt
 
 import aoa
@@ -83,7 +83,7 @@ def train(context: ModelContext, **kwargs):
     # Now set ax as current axes
     plt.sca(ax)
     plt.title('Centroids')
-    plt.gcf().savefig(f"{context.artifact_output_path}/roc_curve.png", dpi=500)
+    plt.gcf().savefig(f"{context.artifact_output_path}/centroids.png", dpi=500)
     plt.clf()
 
   
