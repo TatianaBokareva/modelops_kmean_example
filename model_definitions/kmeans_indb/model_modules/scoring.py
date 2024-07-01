@@ -23,8 +23,8 @@ def score(context: ModelContext, **kwargs):
     aoa_create_context()  # Initialize AOA context for scoring session
 
     # Load the model from the database
-    model = DataFrame(f"model_${context.model_version}")
-    Kmean_out = DataFrame(in_schema("demo_user","k_means_model"))
+    Kmean_out = DataFrame(f"model_${context.model_version}")
+    #Kmean_out = DataFrame(in_schema("demo_user","k_means_model"))
     
     tdf = DataFrame.from_query(context.dataset_info.sql)
     print("context.dataset_info.sql")
