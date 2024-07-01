@@ -41,7 +41,8 @@ def evaluate(context: ModelContext, **kwargs):
     ax.set_zlabel('sepal_width')
     plt.title('Scored')
     # Save the plot to a file
-    plt.gcf().savefig(f"{context.artifact_output_path}/r"3_d_plot_points.png", dpi=500)
+    print("Print path to file: ",context.artifact_output_path)
+    plt.gcf().savefig(f"{context.artifact_output_path}/3_d_plot_points.png", dpi=500)
     plt.clf()  # Clear the plot to free memory
     
     ## ADD CODE TO SAFE PLOT
