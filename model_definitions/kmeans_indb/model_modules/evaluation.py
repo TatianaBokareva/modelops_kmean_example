@@ -28,6 +28,7 @@ def evaluate(context: ModelContext, **kwargs):
     obj = Antiselect(data=tdf1,exclude=['t1_id'])
 
     df_kmeans_scored = obj.result.to_pandas()
+    
     print(df_kmeans_scored.head())
     print("generating picture")
     x = list(df_kmeans_scored[df_kmeans_scored['sepal_length'].notnull()]["sepal_length"])
@@ -48,7 +49,9 @@ def evaluate(context: ModelContext, **kwargs):
     print("Creating misscalssification matrix")
     df_cnt = df_kmeans_scored.groupby(['species','td_clusterid_kmeans']).size()
     df_c = df_cnt.to_frame().reset_index()
+    df_c["cnt"] = df_c[0]
     df_c = df_c.drop(columns=[0])
+
     #Combine the keys and species into one column
     df_c["keys"] = df_c.apply(lambda x: '_'.join(x[["species","td_clusterid_kmeans"]].astype(str).values), axis=1)
     print(df_c.head())
