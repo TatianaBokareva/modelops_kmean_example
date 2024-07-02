@@ -52,6 +52,10 @@ def score(context: ModelContext, **kwargs):
                             ,json_report= ""
                             )    
     print(KMeansPredict_out.dtypes)
+    print(context.dataset_info.predictions_table)
+    sc_tb = DataFrame(in_schema(context.dataset_info.predictions_database, context.dataset_info.predictions_table))
+    print(sc_tb.dtypes)
+    
     print("Finished Scoring")
 
     # Append the results to the specified prediction table in Teradata
