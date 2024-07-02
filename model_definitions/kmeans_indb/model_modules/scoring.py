@@ -49,7 +49,7 @@ def score(context: ModelContext, **kwargs):
                              # rename td_clusterid_kmeans to target_names
                             ,td_clusterid_kmeans = KMeansPredict_out.td_clusterid_kmeans.cast(type_=INTEGER) 
                             # Add an empty json_report column for compatibility with the expected table schema
-                            ,json_report= "".cast(type_=CLOB(1048544000)) 
+                            ,json_report= ""
                             )    
 
     print("Finished Scoring")
