@@ -37,8 +37,7 @@ def score(context: ModelContext, **kwargs):
   
     print("Scoring")
     KMeansPredict_out = KMeansPredict(object=Kmean_out,data=tdf).result
-    print("Output of scoring")
-    print(KMeansPredict_out)
+
 
     # Retrieve target, and entity key names from the model context. Note: order columns to match the expected schema in the database
     tbl_out = KMeansPredict_out.assign(drop_columns=True
@@ -53,11 +52,8 @@ def score(context: ModelContext, **kwargs):
                             ).select(["job_id", "CustomerID", "td_clusterid_kmeans","json_report"])  
 
     
-    print(tbl_out.dtypes)
-    print(context.dataset_info.predictions_table)
     sc_tb = DataFrame(in_schema(context.dataset_info.predictions_database, context.dataset_info.predictions_table))
-    print(sc_tb.dtypes)
-    
+
     print("Finished Scoring")
 
     # Append the results to the specified prediction table in Teradata
