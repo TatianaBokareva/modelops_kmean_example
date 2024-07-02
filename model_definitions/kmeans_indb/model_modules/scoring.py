@@ -43,13 +43,13 @@ def score(context: ModelContext, **kwargs):
     # Retrieve target, and entity key names from the model context. Note: order columns to match the expected schema in the database
     KMeansPredict_out.assign(drop_columns=True
                              # Add job_id to track the execution
-                            ,job_id = context.job_id.cast(type_=VARCHAR(255) CHARACTER SET LATIN NOT CASESPECIFIC)  
+                            ,job_id = context.job_id.cast(type_=VARCHAR(255))  
                              # Set entity key from the features_pdf
                             ,entity_key = context.dataset_info.entity_key.cast(type_=BIGINT)
                              # rename td_clusterid_kmeans to target_names
                             ,td_clusterid_kmeans = KMeansPredict_out.td_clusterid_kmeans.cast(type_=INTEGER) 
                             # Add an empty json_report column for compatibility with the expected table schema
-                            ,json_report= "".cast(type_=CLOB(1048544000) CHARACTER SET LATIN) 
+                            ,json_report= "".cast(type_=CLOB(1048544000)) 
                             )    
 
     print("Finished Scoring")
