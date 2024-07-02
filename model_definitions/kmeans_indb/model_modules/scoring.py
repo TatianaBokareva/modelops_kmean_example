@@ -45,12 +45,14 @@ def score(context: ModelContext, **kwargs):
                              # Add job_id to track the execution
                             ,job_id = context.job_id 
                              # Set entity key from the features_pdf
-                            ,entity_key = KMeansPredict_out.id.cast(type_=BIGINT)
+                            ,CustomerID = KMeansPredict_out.id.cast(type_=BIGINT)
                              # rename td_clusterid_kmeans to target_names
                             ,td_clusterid_kmeans = KMeansPredict_out.td_clusterid_kmeans.cast(type_=INTEGER) 
                             # Add an empty json_report column for compatibility with the expected table schema
                             ,json_report= ""
-                            )    
+                            ).select(["job_id", "CustomerID", "td_clusterid_kmeans","json_report"])  
+
+    
     print(tbl_out.dtypes)
     print(context.dataset_info.predictions_table)
     sc_tb = DataFrame(in_schema(context.dataset_info.predictions_database, context.dataset_info.predictions_table))
