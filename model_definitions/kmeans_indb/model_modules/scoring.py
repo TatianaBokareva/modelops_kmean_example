@@ -41,7 +41,7 @@ def score(context: ModelContext, **kwargs):
     print(KMeansPredict_out)
 
     # Retrieve target, and entity key names from the model context. Note: order columns to match the expected schema in the database
-    KMeansPredict_out = KMeansPredict_out.assign(drop_columns=True
+    tbl_out = KMeansPredict_out.assign(drop_columns=True
                              # Add job_id to track the execution
                             ,job_id = context.job_id 
                              # Set entity key from the features_pdf
@@ -51,7 +51,7 @@ def score(context: ModelContext, **kwargs):
                             # Add an empty json_report column for compatibility with the expected table schema
                             ,json_report= ""
                             )    
-    print(KMeansPredict_out.dtypes)
+    print(tbl_out.dtypes)
     print(context.dataset_info.predictions_table)
     sc_tb = DataFrame(in_schema(context.dataset_info.predictions_database, context.dataset_info.predictions_table))
     print(sc_tb.dtypes)
@@ -61,7 +61,7 @@ def score(context: ModelContext, **kwargs):
     # Append the results to the specified prediction table in Teradata
     print("Saved predictions in Teradata")
     copy_to_sql(
-        df=KMeansPredict_out,
+        df=tbl_out,
         schema_name=context.dataset_info.predictions_database,
         table_name=context.dataset_info.predictions_table,
         index=False,
