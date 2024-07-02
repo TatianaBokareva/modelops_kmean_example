@@ -39,7 +39,7 @@ def score(context: ModelContext, **kwargs):
     KMeansPredict_out = KMeansPredict(object=Kmean_out,data=tdf).result
     print("Output of scoring")
     print(KMeansPredict_out)
-    
+    print(KMeansPredict_out)
     # Retrieve target, and entity key names from the model context. Note: order columns to match the expected schema in the database
     KMeansPredict_out.assign(drop_columns=True
                              # Add job_id to track the execution
@@ -51,7 +51,7 @@ def score(context: ModelContext, **kwargs):
                             # Add an empty json_report column for compatibility with the expected table schema
                             ,json_report= ""
                             )    
-
+    print(KMeansPredict_out.dtypes)
     print("Finished Scoring")
 
     # Append the results to the specified prediction table in Teradata
